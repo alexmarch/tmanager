@@ -1,0 +1,123 @@
+.create-task-btn {
+	border: none;
+	text-decoration: none;
+	background: #22d732;
+	padding: 5px;
+	color: #fff;
+	margin-right: 5px;
+	text-align: center;
+}
+.create-task-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 50%;
+}
+.form-container {
+	display: flex;
+	flex-grow: 1;
+	justify-content: center;
+	align-items: center;
+}
+.form-control input, textarea, select {
+	padding: 15px;
+	margin: 5px;
+	width: 100%;
+	border: 1px solid #ccc;
+	outline: none;
+	border-radius: 3px;
+}
+.form-control button {
+	padding: 15px;
+	margin: 5px;
+	border-radius: 3px;
+	background: #2891cf;
+	color: #fff;
+	border: none;
+}
+.error-message {
+	color: red;
+	padding: 1px;
+	margin: 0px;
+}
+
+.task-list-content {
+	display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+	width: 40%;
+}
+.task-list {
+	width: 100%;
+}
+.list-item {
+	padding: 15px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+	margin-top: 5px;
+}
+.list-item-header {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 5px;
+}
+.list-item-header, .list-item-footer {
+	font-size: 12px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+.list-item-username {
+	padding-left: 5px;
+}
+.list-item-id {
+	color: #939393;
+}
+.list-item-text {
+	padding: 5px;
+	text-justify: auto;
+}
+.success-message {
+	background: #a6e3ab;
+	color: #0e9125;
+	padding: 15px;
+	width: 100%;
+	text-align: center;
+}
+.pagination-page-item {
+	background: none;
+	border: 1px solid #ccc;
+	margin-left: 5px;
+}
+.pagination-page-item:hover {
+	cursor: pointer;
+}
+.pagination-page-list {
+	margin-top: 15px;
+}
+.pagination-page-item-active {
+	background: #2991cf;
+	color: #fff;
+}
+.task-list-order {
+	display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+	width: 100%;
+}
+.task-list-order select {
+	margin-left: 5px;
+	border: none;
+	background: #ccc;
+}
+.edit-btn {
+	border: 1px solid #000;
+	background: #d1d0d0;
+	border-radius: 3px;
+}
+.text-green {
+	color: #0e9125;
+}

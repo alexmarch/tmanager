@@ -1,26 +1,52 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { RootState } from './app/store';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import TaskList from './features/task/components/TaskList';
+import Login from './features/user/components/LoginForm'
+import TaskForm from './features/task/components/TaskForm';
+import { isLogin, logout } from './features/user/api'
+import './App.css'
+import './features/task/components/TaskList.css'
+
+
+const Navbar = ({ ...props }) => {
+  const navigator = useNavigate()
+  return (<div className="navbar">
+    <Link to="/">Задачи</Link>
+    {!props.isLogIn()
+      ? <Link to="/login" className="login-btn">Вход</Link>
+      : <button onClick={() => {
+        logout()
+        navigator('/login')
+      }} className="logout-btn">Выход</button>}
+  </div>)
 }
-
-export default App;
+class App extends React.Component {
+  render() {
+    return <Router>
+      <div className="app" >
+        <div className="header">
+          <div className="logo">
+            Tmanager
+          </div>
+          <Navbar {...this.props} />
+        </div>
+      </div>
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<TaskList />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/create" element={<TaskForm />}></Route>
+          <Route path="/edit" element={<TaskForm />}></Route>
+        </Routes>
+      </div>
+    </Router>
+  }
+}
+export default connect(
+  (state: RootState) => ({
+    isLogIn: () => isLogin()
+  })
+)(App)
