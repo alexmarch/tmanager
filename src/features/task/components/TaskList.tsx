@@ -44,7 +44,6 @@ class TaskList extends React.Component<TaskListProps, TaskListState> {
 			sortDirection: this.props.getListQueryParams.sortDirection,
 			pageNum: this.props.getListQueryParams.pageNum
 		}))
-		console.log(this.props.successStatus)
 	}
 	async onPageChange(pageNum: number) {
 		await store.dispatch(changeQueryParams({ pageNum }))
