@@ -19,10 +19,10 @@ type TaskListProps = {
 
 type TaskListState = {}
 
-const EditButton = ({...props }) => {
+const EditButton = ({ ...props }) => {
 	const navigator = useNavigate()
 	return <div>
-		{ isLogin() ? <button className="edit-btn" onClick={async () => {
+		{isLogin() ? <button className="edit-btn" onClick={async () => {
 			await store.dispatch(editTask({
 				...props.task,
 				emailValid: true,
@@ -30,10 +30,9 @@ const EditButton = ({...props }) => {
 				textValid: true
 			}))
 			navigator('/edit')
-		}}>Редактировать</button> : null }
-		</div>
+		}}>Редактировать</button> : null}
+	</div>
 }
-
 
 class TaskList extends React.Component<TaskListProps, TaskListState> {
 	constructor(props: TaskListProps) {
@@ -45,6 +44,7 @@ class TaskList extends React.Component<TaskListProps, TaskListState> {
 			sortDirection: this.props.getListQueryParams.sortDirection,
 			pageNum: this.props.getListQueryParams.pageNum
 		}))
+		console.log(this.props.successStatus)
 	}
 	async onPageChange(pageNum: number) {
 		await store.dispatch(changeQueryParams({ pageNum }))
@@ -72,14 +72,14 @@ class TaskList extends React.Component<TaskListProps, TaskListState> {
 	}
 	render() {
 		return <div className="task-list-content">
-			{this.props.successStatus ? (<p className="success-message">this.props.successStatus</p>) : ''}
+			{this.props.successStatus !== '' ? (<p className="success-message">{this.props.successStatus}</p>) : null}
 			<div className="task-list-order">
 				<Link className="create-task-btn" to="/create">Создать задачу</Link>
 				<select onChange={(e) => this.onChangeSortDirection(e.target.value as SortDirectionType)}>
 					<option value={"asc"}>По возрастанию</option>
 					<option value={"desc"}>По убыванию</option>
 				</select>
-				<select onChange={(e) => this.onChangeSortFieldDirection(e.target.value as SortFieldType )}>
+				<select onChange={(e) => this.onChangeSortFieldDirection(e.target.value as SortFieldType)}>
 					<option value={"username"}>Имя пользователя</option>
 					<option value={"email"}>E-Mail</option>
 					<option value={"status"}>Статус</option>
@@ -99,7 +99,7 @@ class TaskList extends React.Component<TaskListProps, TaskListState> {
 							</div>
 							<div className="list-item-footer">
 								<span>E-mail: {task.email}</span>
-								<span className={ task.status === 10 ? 'text-green' : '' }>Статус: { getStatus(task.status) }</span>
+								<span className={task.status === 10 ? 'text-green' : ''}>Статус: {getStatus(task.status)}</span>
 							</div>
 						</div>
 					)

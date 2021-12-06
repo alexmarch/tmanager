@@ -62,11 +62,10 @@ export const createTask = createAsyncThunk(
 			})
 
 		const data = await resp.json()
-		if (data.status === 'ok') {
-			return `Задача (${data.message.text} успешно добавлена`
-		} else {
-			return false
+		if (data.status !== 'error') {
+			return `Задача успешно добавлена`
 		}
+		return ''
 	})
 
 export const editTask = createAsyncThunk(

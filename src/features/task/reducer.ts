@@ -44,8 +44,8 @@ export const taskSlice = createSlice({
 			state.taskList = action.payload.tasks
 			state.totalCount = action.payload.totalCount
 		})
-		builder.addCase(createTask.fulfilled, (state, action: PayloadAction<string|boolean>) => {
-			state = { ...state, successStatus: action.payload }
+		builder.addCase(createTask.fulfilled, (state, action: PayloadAction<string>) => {
+			state.successStatus = action.payload
 		})
 	}
 })
