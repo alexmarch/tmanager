@@ -39,8 +39,8 @@ class TaskList extends React.Component<TaskListProps, TaskListState> {
 	constructor(props: TaskListProps) {
 		super(props)
 	}
-	componentDidMount() {
-		store.dispatch(fetchTasksByPage({
+	async componentDidMount() {
+		await store.dispatch(fetchTasksByPage({
 			sortField: this.props.getListQueryParams.sortField,
 			sortDirection: this.props.getListQueryParams.sortDirection,
 			pageNum: this.props.getListQueryParams.pageNum

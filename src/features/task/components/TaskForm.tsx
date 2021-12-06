@@ -1,10 +1,11 @@
 import React, { FormEvent, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { connect } from "react-redux"
+import { isLogin } from "../../user/api"
 
 import { RootState, store } from "../../../app/store"
-import { createTask, editTask } from "../api"
-import { ITask, Task } from "../Task"
+import { createTask, editTask, fetchTasksByPage } from "../api"
+import { ITask } from "../Task"
 
 const defaultState = {
 	username: '',
@@ -15,6 +16,7 @@ const defaultState = {
 	textValid: false,
 	validationError: ""
 }
+
 function getStatus(task: ITask, status: number): boolean {
 	return task.status === status ? true : false
 }
@@ -65,13 +67,17 @@ function TaskForm({ ...props }) {
 
 		if (task.id) {
 			await store.dispatch(editTask(task))
-			console.log(task)
-			navigator('/');
+			navigator('/', { replace: true });
 			return
 		}
 
 		await store.dispatch(createTask(task))
-		navigator('/');
+		await store.dispatch(fetchTasksByPage({
+			sortField: props.getListQueryParams.sortField,
+			sortDirection: props.getListQueryParams.sortDirection,
+			pageNum: 1
+		}))
+		navigator('/', { replace: true });
 	}
 	return (<div className="form-container">
 		<form onSubmit={(e) => submitForm(e)} className="create-task-form">
@@ -85,14 +91,16 @@ function TaskForm({ ...props }) {
 				<div className="form-control">
 					<textarea rows={10} value={task.text} onBlur={(e) => validateField(e.target.name, e.target.value)} onChange={(e) => setValue({ ...task, text: e.target.value })} name="text" placeholder="Текст задачи" />
 				</div>
-				<div className="form-control">
-					<select onChange={(e) => setValue({ ...task, status: e.target.value })} >
-						<option value="0" selected={getStatus(task, 0)}>Задача не выполнена</option>
-						<option value="1" selected={getStatus(task, 1)}>Задача не выполнена, отредактирована админом</option>
-						<option value="10" selected={getStatus(task, 10)}>Задача выполнена</option>
-						<option value="11" selected={getStatus(task, 11)}>Задача отредактирована админом и выполнена</option>
-					</select>
-				</div>
+				{ isLogin() ?
+					<div className="form-control">
+						<select onChange={(e) => setValue({ ...task, status: e.target.value })} >
+							<option value="0" selected={getStatus(task, 0)}>Задача не выполнена</option>
+							<option value="1" selected={getStatus(task, 1)}>Задача не выполнена, отредактирована админом</option>
+							<option value="10" selected={getStatus(task, 10)}>Задача выполнена</option>
+							<option value="11" selected={getStatus(task, 11)}>Задача отредактирована админом и выполнена</option>
+						</select>
+					</div>
+				: null }
 				<div className="form-control">
 					<button type="submit" className="submit">Сохранить</button>
 				</div>
@@ -102,5 +110,6 @@ function TaskForm({ ...props }) {
 }
 
 export default connect((state: RootState) => ({
-	editTask: state.task.editTask
+	editTask: state.task.editTask,
+	getListQueryParams: state.task.getListQueryParams,
 }))(TaskForm)
